@@ -23,3 +23,41 @@ void rmsnorm(std::vector<float> &input, std::vector<float> &weights, float &eps)
     }
 
 }
+
+void softmax(std::vector<float> &input){
+    float max_val = 0.0f;
+    int n = input.size();
+
+    for(int i = 0; i < n; i++){
+        if (input[i] > max_val){
+            max_val = input[i];
+        } 
+    }
+
+    // exp and sum
+    float sum = 0.0f;
+    for (int i = 0; i < n; i++) {
+        input[i] = expf(input[i] - max_val);
+        sum += input[i];
+    }
+    // normalize
+    for (int i = 0; i < n; i++) {
+        input[i] /= sum;
+    }
+    
+}
+
+void matmul(std::vector<float> &output, std::vector<float> input, std::vector<float> &weights, int n, int d){
+    // matrix-vector multiplication: output = weights * input
+    // weights: [d x n]
+    // input:   [n]
+    // output:  [d]
+    for(int i = 0; i < d; i++){
+        float val = 0.0f;
+        for(int j = 0; j < n; j ++){
+            val += weights[i * n + j] * input[j];
+        }
+        output[i] = val;
+    }
+
+}
