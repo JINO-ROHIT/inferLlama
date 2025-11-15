@@ -1,2 +1,6 @@
 model/
+test
+play.cpp
+
 .DS_store
+settings.json
