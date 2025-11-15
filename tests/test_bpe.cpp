@@ -3,9 +3,9 @@
 
 int main(){
     Tokenizer tokenizer;
-    build_tokenizer(&tokenizer, "model/tokenizer.bin", 256);
-    print_tokenizer(&tokenizer);
+    tokenizer.build_tokenizer("model/tokenizer.json");
+    tokenizer.print_top_n(10);
 
-    printf("%s\n", decode(&tokenizer, 0, 100));
-
+    std::cout << tokenizer.decode(std::vector<int> {10994, 11526});
 }
+
