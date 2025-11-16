@@ -6,6 +6,7 @@ Current model weights is from here - (https://huggingface.co/unsloth/llama-2-7b-
 
 ### Roadmap
 
+- [ ] Add a makefile for builds
 - [ ] Implement SIMD instructions for faster computation
 - [ ] Add quantization algorithms with performance benchmarking
 - [ ] Support GPU operations via CUDA C++

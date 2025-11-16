@@ -10,12 +10,16 @@
 
 class Tokenizer {
 private:
-    std::map<std::string, int> encoder;
-    std::map<int, std::string> decoder;
-    std::vector<std::pair<std::string, std::string>> merges; // not storing atm
+    std::unordered_map<std::string, int> encoder; // unordered map is faster
+    std::unordered_map<int, std::string> decoder;
+    std::vector<std::string> merge_pair;
 
 public:
     void build_tokenizer(const std::string& json_path);
+    std::vector<int> encode(std::string input);
     std::string decode(std::vector<int> token_ids);
-    void print_top_n(int N) const; // pass decoder or have to sort encoder
+    void print_tokens(const std::vector<int>& token_ids); 
+    
+private:
+    std::string pre_process(std::string input);
 };
