@@ -10,61 +10,21 @@ static std::string trim(const std::string& s) {
 }
 
 void Tokenizer::build_tokenizer(const std::string& json_path) {
-    std::ifstream file(json_path);
-    if (!file.is_open()) {
+    std::ifstream tokenizer_file(json_path, std::ifstream::binary);
+    if (!tokenizer_file.is_open()) {
         std::cerr << "cannot open tokenizer\n";
         return;
     }
 
-    std::string line;
-    bool in_model = false;
-    bool in_vocab = false;
+    Json::Value file;
+    tokenizer_file >> file;
 
-    while (std::getline(file, line)) {
-        line = trim(line);
-
-        if (line.find("\"model\"") != std::string::npos) {
-            in_model = true;
-            continue;
-        }
-
-        if (in_model && line.find("\"vocab\"") != std::string::npos) {
-            in_vocab = true;
-            continue;
-        }
-
-        // exit vocab block
-        if (in_vocab && (line == "}," || line == "}")) {
-            in_vocab = false;
-            continue;
-        }
-
-        if (in_vocab) {
-            if (line == "{") continue;
-
-            if (!line.empty() && line.back() == ',')
-                line.pop_back();
-
-            size_t colon = line.find(':');
-            if (colon == std::string::npos) continue;
-
-            std::string key = trim(line.substr(0, colon));
-            std::string val = trim(line.substr(colon + 1));
-
-            // remove quotes from token
-            if (key.front() == '"' && key.back() == '"')
-                key = key.substr(1, key.size() - 2);
-
-            if (val.empty() || !isdigit(val[0]))
-                continue;
-
-            int id = std::stoi(val);
-
-            encoder[key] = id;
-            decoder[id] = key;
-        }
+    const Json::Value& vocab = file["model"]["vocab"];
+    for (const auto& key : vocab.getMemberNames()) {
+        int id = vocab[key].asInt();
+        encoder[key] = id;
+        decoder[id] = key;
     }
-
     std::cout << "Loaded vocab size: " << encoder.size() << "\n";
 }
 
