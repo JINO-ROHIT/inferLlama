@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../src/ops.cpp"
+#include "../src/ops.cpp" // import headers in actual files and compile src
 #include "../src/helper.hpp"   // for Timer
 
 void test_matmul() {

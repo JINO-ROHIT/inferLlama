@@ -1,7 +1,13 @@
 #include <cmath>
 #include <vector>
 
-void rmsnorm(std::vector<float> &input, std::vector<float> &weights, float &eps){
+void silu(std::vector<float>& input){
+    for(int i = 0; i < input.size(); i ++){
+        input[i] = input[i] * ( 1.0 / 1.0 + exp(-input[i]));
+    }
+}
+
+void rmsnorm(std::vector<float> &input, const std::vector<float> &weights, const float &eps){
     // 1. take the square of the values
     // 2. take the mean of the squares
     // 3. rms = take the sqrt(mean + small eps)
@@ -47,7 +53,7 @@ void softmax(std::vector<float> &input){
     
 }
 
-void matmul(std::vector<float> &output, std::vector<float> input, std::vector<float> &weights, int n, int d){
+void matmul(std::vector<float> &output, const std::vector<float>& input, const std::vector<float> &weights, const int n, const int d){
     // matrix-vector multiplication: output = weights * input
     // weights: [d x n]
     // input:   [n]
