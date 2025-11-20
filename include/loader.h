@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <fcntl.h>
 #include <unistd.h>
@@ -111,7 +112,7 @@ class Loader {
             return !tensors.empty();
         }
 
-        const Tensor& get_tensor(const std::string& tensor_name){
+        const Tensor& get_tensor(const std::string& tensor_name) const{
             auto it = tensors.find(tensor_name);
 
             if(it == tensors.end()){
