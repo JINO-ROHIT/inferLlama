@@ -18,6 +18,7 @@ python3 convert_to_bin.py
 ### Roadmap
 
 - [ ] Add a makefile for builds
+- [ ] Operator fusion + multithreading
 - [ ] Implement SIMD instructions for faster computation
 - [ ] Add quantization algorithms with performance benchmarking
 - [ ] Support GPU operations via CUDA C++
