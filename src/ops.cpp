@@ -7,6 +7,14 @@ void silu(std::vector<float>& input){
     }
 }
 
+std::vector<float> silu_copy(const std::vector<float>& input) {
+    std::vector<float> result = input; // make a copy
+    for(int i = 0; i < result.size(); i++) {
+        result[i] = result[i] * (1.0f / (1.0f + exp(-result[i])));
+    }
+    return result;
+}
+
 void rmsnorm(std::vector<float> &input, const std::vector<float> &weights, const float &eps){
     // 1. take the square of the values
     // 2. take the mean of the squares
@@ -66,4 +74,16 @@ void matmul(std::vector<float> &output, const std::vector<float>& input, const s
         output[i] = val;
     }
 
+}
+
+//overload with pointer as input for weights
+void matmul(std::vector<float> &output, const std::vector<float>& input, 
+                const float* weights, const int n, const int d){
+    for(int i = 0; i < d; i++){
+        float val = 0.0f;
+        for(int j = 0; j < n; j++){
+            val += weights[i * n + j] * input[j];
+        }
+        output[i] = val;
+    }
 }
