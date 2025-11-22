@@ -34,6 +34,20 @@ class Tensor {
             unmap();
         }
 
+        template<typename T>
+        const T* data() const {
+            return static_cast<const T*>(data_ptr);
+        }
+
+        const std::vector<int>& get_shape() const { return shape; }
+        Dtype get_dtype() const { return dtype; }
+
+        size_t size() const {
+            size_t total = 1;
+            for (int dim : shape) total *= dim;
+            return total;
+        }
+
         bool load(const std::string& filename){
             fd = open(filename.c_str(), O_RDONLY);
             if(fd < 0){
@@ -57,9 +71,6 @@ class Tensor {
             // we know dim is byte 1
             uint8_t ndims = *reinterpret_cast<uint8_t*>(ptr);
             ptr += 1;
-
-            std::cout << (int)dtype << '\n';
-            std::cout << (int)ndims << '\n';
 
             // Read shape
             shape.resize(ndims);
@@ -105,7 +116,7 @@ class Loader {
                 Tensor tensor;
                 if (tensor.load(entry.path().string())) {
                     tensors[tensor_name] = std::move(tensor);
-                    std::cout << "Mapped: " << tensor_name << std::endl;
+                    //std::cout << "Mapped: " << tensor_name << std::endl; for debug
                 }
             }
             }
@@ -113,6 +124,7 @@ class Loader {
         }
 
         const Tensor& get_tensor(const std::string& tensor_name) const{
+
             auto it = tensors.find(tensor_name);
 
             if(it == tensors.end()){
