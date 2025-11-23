@@ -19,7 +19,7 @@ int main() {
     ffn.forward(input, output);
     
     auto start = std::chrono::high_resolution_clock::now();
-    int iterations = 100;
+    int iterations = 10;
     
     for (int i = 0; i < iterations; i++) {
         ffn.forward(input, output);
