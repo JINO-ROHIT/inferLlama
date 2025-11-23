@@ -1,4 +1,4 @@
-#include "../include/sampler.h"
+#include "include/sampler.h"
 
 int Sampler::sample_argmax(std::vector<float> probabilities){
     int max_idx = 0;
